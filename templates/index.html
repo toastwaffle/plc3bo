@@ -2,7 +2,7 @@
 {% block title %}Welcome{% endblock %}
 {% block content %}
     <h2>Welcome to Plc3bo</h2>
-    <p>Plc3bo (pronounced placebo) is a system for bowsing through all the drugs and medical products prescibed by doctors in the NHS between 2009 and 2012</p>
+    <p>Plc3bo (pronounced placebo) is a system for browsing through all the drugs and medical products prescibed by doctors in the NHS between 2009 and 2012</p>
     <p>To get started, use the form below to search by drug name, active ingredient or category. Please note the many drug and category names are shortened, and using the full name may not return any results.</p>
     <form action="{{ url_for('search') }}" method="get" id="home-search">
         <input type="search" name="query" placeholder="Search Term" />

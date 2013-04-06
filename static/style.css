@@ -236,15 +236,8 @@ header {
     padding: 0;
 }
 
-a.logo {
-    width: 200px;
-    height: 200px;
-    background: url('logo.png');
-    float: left;
-}
-
 div.header {
-    width: 710px;
+    width: 960px;
     height: 150px;
     margin: 0;
     padding: 25px;
@@ -257,72 +250,6 @@ div.header h1 {
 
 div.header h2 {
     color: #00b6d7;
-}
-
-nav {
-    width: 860px;
-    border-top-left-radius: 10px;
-    -moz-border-radius-topleft: 10px;
-    -webkit-border-top-left-radius: 10px;
-    -o-border-top-left-radius: 10px;
-    -ms-border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    -moz-border-radius-topright: 10px;
-    -webkit-border-top-right-radius: 10px;
-    -o-border-top-right-radius: 10px;
-    -ms-border-top-right-radius: 10px;
-    border: 2px solid #415a68;
-    border-bottom: none;
-    background-color: #000;
-    height: 50px;
-    margin: auto;
-}
-
-.nav-left-shift {
-    float: right;
-    position: relative;
-    left: -50%;
-    text-align: left;
-}
-
-.nav-right-shift {
-    position: relative;
-    left: 50%;
-}
-
-nav ul {
-    list-style-type: none;
-    list-style-position: outside;
-    margin: 0;
-}
-
-nav li {
-    display: block;
-    float: left;
-}
-
-nav a {
-    text-decoration: none;
-    display: inline-block;
-    height: 30px;
-    line-height: 30px;
-    padding: 10px;
-}
-
-nav a:link,
-nav a:visited {
-    color: #fff;
-    background-color: #000;
-}
-
-nav a:hover {
-    color: #fff;
-    background-color: #333;
-}
-
-nav a:active {
-    color: #fff;
-    background-color: #666;
 }
 
 div.content {
@@ -339,17 +266,10 @@ div.content {
 }
 
 div.left {
-    width: 680px;
+    width: 940px;
     padding: 10px;
     margin: 0;
     float: left;
-}
-
-div.right {
-    width: 230px;
-    padding: 10px;
-    margin: 0;
-    float: right;
 }
 
 footer {
