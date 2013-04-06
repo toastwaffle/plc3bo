@@ -15,9 +15,6 @@ def index():
 
     return render_template('index.html', categories=categories)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route('/search/')
 def search():
     try:
@@ -26,15 +23,27 @@ def search():
         flash('Please enter a search term', 'error')
         return redirect(url_for('index'))
 
-    drugs = BNFDrug.query.whoosh_search(term).all()
     categories = BNFCategory.query.whoosh_search(term).all()
     chemicals = BNFChemical.query.whoosh_search(term).all()
+    drugs = BNFDrug.query.whoosh_search(term).all()
 
     return render_template('searchresults.html',
                            categories=categories,
                            drugs=drugs,
-                           chemicals=chemicals)
+                           chemicals=chemicals,
+                           term=term)
 
 @app.route('/category/<int:id>')
 def category(id):
     pass
+
+@app.route('/drug/<int:id>')
+def drug(id):
+    pass
+
+@app.route('/chemical/<int:id>')
+def chemical(id):
+    pass
+
+if __name__ == '__main__':
+    app.run(debug=True)
