@@ -84,7 +84,10 @@ def get_drug(row):
 
         qty_units = {'1' : 'unit', '3' : 'millilitre', '6' : 'gram', '0' : 'other'}
 
-        qty_unit = qty_units[row[8]]
+        try:
+            qty_unit = qty_units[row[8]]
+        except KeyError:
+            qty_unit = 'other'
 
         prep_class = row[9]
 
@@ -101,7 +104,7 @@ def get_drug(row):
 
     return drug
 
-for year in [2012,2009,2010,2011]:
+for year in [2010,2011]:
     filename = 'pres-cost-anal-eng-' + str(year) + '-data.csv'
     csvfile = open(filename, 'r')
     for row in csv.reader(csvfile):

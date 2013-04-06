@@ -1,6 +1,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block scripts %}{% endblock %}
     <title>Plc3bo - {% block title %}{% endblock %}</title>
 </head>
 <body>

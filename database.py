@@ -149,6 +149,16 @@ class Statistic(db.Model):
     def __repr__(self):
         return "<BNFStatistic %s>" % self.id
 
+    def todict(self):
+        return {"items": self.items,
+                "quantity": self.quantity,
+                "owc2": self.owc2,
+                "nic": self.nic,
+                "year": str(self.year),
+                "costp": float(self.nic) / float(self.items),
+                "costi": float(self.nic) / float(self.quantity),
+                "iperp": float(self.quantity) / float(self.items)}
+
 
 whooshalchemy.whoosh_index(app, BNFDrug)
 whooshalchemy.whoosh_index(app, BNFCategory)

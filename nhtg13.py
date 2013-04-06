@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory
+from flask import Flask, session, redirect, url_for, escape, request, render_template, send_from_directory, flash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://nhtg13:sq8NyLaAmuANVeR6@localhost/nhtg13'
@@ -49,14 +49,23 @@ def category(id):
 
 @app.route('/drug/<int:id>')
 def drug(id):
-    pass
+    drug = BNFDrug.query.filter(BNFDrug.id==id).first()
+
+    if not drug:
+        flash('Drug not found', 'error')
+        return redirect(url_for('index'))
+
+    stats = drug.statistics.order_by(Statistic.year).all()
+    statsdicts = [x.todict() for x in stats]
+
+    return render_template('drug.html', drug=drug, stats=stats, statsdicts=statsdicts)
 
 @app.route('/chemical/<int:id>')
 def chemical(id):
     chemical = BNFChemical.query.filter(BNFChemical.id==id).first()
 
     if not chemical:
-        flash('Category not found', 'error')
+        flash('Chemical not found', 'error')
         return redirect(url_for('index'))
 
     drugs = chemical.drugs.order_by(BNFDrug.name).all()
@@ -71,4 +80,4 @@ def utility_processor():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

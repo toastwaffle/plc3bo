@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+{% block scripts %}<script src="http://d3js.org/d3.v3.min.js"></script>{% endblock %}
+{% block title %}{{ drug.name }}{% endblock %}
+{% block content %}
+    <form action="{{ url_for('search') }}" method="get" id="category-search" class="fright">
+        <input type="search" name="query" placeholder="Search Term" />
+        <input type="submit" />
+    </form>
+    <h2>{{ drug.name }}</h2>
+
+    {% if drug.category %}
+    <p>Category: <a href="{{ url_for('category', id=drug.category.id) }}">{% if drug.category.name=='' %}{{ drug.category.parent.name }}{% else %}{{ drug.category.name }}{% endif %}</a></p>
+    {% endif %}
+
+    {% if drug.chemical %}
+    <p>Active Ingredient: <a href="{{ url_for('chemical', id=drug.chemical.id) }}">{{ drug.chemical.name }}</a></p>
+    {% endif %}
+
+    {% if drug.form %}
+    <p>Form: {{ drug.form }}</p>
+    {% endif %}
+
+    {% if drug.dosage %}
+    <p>Dosage: {{ drug.dosage }}</p>
+    {% endif %}
+
+    {% if drug.prep_class==1 %}
+    <p>Drug prescribed and available generically</p>
+    {% elif drug.prep_class==2 %}
+    <p>Drug prescribed generically but only available as a proprietary product</p>
+    {% elif drug.prep_class==1 %}
+    <p>Drugs prescribed and dispensed by proprietary brand name</p>
+    {% endif %}
+
+    <h3>Statistics</h3>
+    <table>
+        <thead>
+            <th>Year</th>
+            <th><a href="javascript:showgraph('items');">Total Number of Prescriptions</a></th>
+            <th><a href="javascript:showgraph('quantity');">Total Number of Items/Units Dispensed ({{ drug.qty_unit }})</a></th>
+            <th><a href="javascript:showgraph('owc2');">Total Number Prescribed Generic &amp; Dispensed Proprietary</a></th>
+            <th><a href="javascript:showgraph('nic');">Total Net Cost of Prescriptions</a></th>
+            <th><a href="javascript:showgraph('costp');">Avg. Cost per Prescription</a></th>
+            <th><a href="javascript:showgraph('costi');">Avg. Cost per Item/Unit</a></th>
+            <th><a href="javascript:showgraph('iperp');">Avg. Items/Units per Prescription</a></th>
+        </thead>
+        {% for stat in stats %}
+        <tr>
+            <th>{{ stat.year }}</th>
+            <td>{{ stat.items }}</td>
+            <td>{{ stat.quantity }}</td>
+            <td>{{ stat.owc2 }}</td>
+            <td>{{ stat.nic }}</td>
+            <td>{{ (stat.nic / stat.items) | round(3) }}</td>
+            <td>{{ (stat.nic / stat.quantity) | round(3) }}</td>
+            <td>{{ (stat.quantity / stat.items) | round(3) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        function showgraph(field) {
+            d3.select("svg").remove()
+
+            var data = {{ statsdicts|tojson|safe }};
+
+            data.forEach(function(d) {d.date = d3.time.format("%Y").parse(d.year)});
+
+            var margin = {top: 20, right: 20, bottom: 30, left: 100},
+                width = 940 - margin.left - margin.right,
+                height = 300 - margin.top - margin.bottom;
+
+            var x = d3.time.scale()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left");
+
+            var line = d3.svg.line()
+                .x(function(d) { return x(d.date); })
+                .y(function(d) { return y(d[field]); });
+
+            var svg = d3.select("div.left").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain(d3.extent(data, function(d) { return d[field]; }));
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Price (£)");
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("d", line);
+        };
+    </script>
+{% endblock %}
