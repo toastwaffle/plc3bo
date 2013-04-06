@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block title %}Search Results{% endblock %}
+{% block content %}
+    <h2>Search Results</h2>
+    <form action="{{ url_for('search') }}" method="get" id="home-search">
+        <input type="search" name="query" value="{{ term }}" />
+        <input type="submit" />
+    </form>
+    {% if drugs %}
+    <h3>Drug/Medical Product Results</h3>
+    <ul id="drug-list">
+        {% for drug in drugs %}
+        <li><a href="{{ url_for('drug', id=drug.id) }}">{{ drug.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if categories %}
+    <h3>Category Results</h3>
+    <ul id="category-list">
+        {% for cat in categories %}
+        <li><a href="{{ url_for('category', id=cat.id) }}">{{ cat.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if chemicals %}
+    <h3>Active Ingredient Results</h3>
+    <ul id="chemical-list">
+        {% for chem in chemicals %}
+        <li><a href="{{ url_for('chemical', id=chem.id) }}">{{ chem.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}
