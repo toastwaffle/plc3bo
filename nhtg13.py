@@ -41,8 +41,8 @@ def category(id):
         flash('Category not found', 'error')
         return redirect(url_for('index'))
 
-    children = category.children.all()
-    drugs = category.drugs.all()
+    children = category.children.order_by(BNFCategory.name).all()
+    drugs = category.drugs.order_by(BNFDrug.name).all()
 
     return render_template('category.html', category=category, children=children, drugs=drugs)
 
@@ -53,7 +53,15 @@ def drug(id):
 
 @app.route('/chemical/<int:id>')
 def chemical(id):
-    pass
+    chemical = BNFChemical.query.filter(BNFChemical.id==id).first()
+
+    if not chemical:
+        flash('Category not found', 'error')
+        return redirect(url_for('index'))
+
+    drugs = chemical.drugs.order_by(BNFDrug.name).all()
+
+    return render_template('chemical.html', chemical=chemical, drugs=drugs)
 
 @app.context_processor
 def utility_processor():

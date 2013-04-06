@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+    <form action="{{ url_for('search') }}" method="get" id="category-search" class="fright">
+        <input type="search" name="query" placeholder="Search Term" />
+        <input type="submit" />
+    </form>
+    <h2>Drugs/Medical Products containing {{ chemical.name }}</h2>
+    <ul id="drug-list">
+        {% for drug in drugs %}
+        <li><a href="{{ url_for('drug', id=drug.id) }}">{{ drug.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
