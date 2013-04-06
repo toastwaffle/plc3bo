@@ -346,3 +346,19 @@ ul.flashes li.info {
 .center {
     text-align: center;
 }
+
+.fright {
+    float: right;
+}
+
+.fleft {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    color: inherit;
+}

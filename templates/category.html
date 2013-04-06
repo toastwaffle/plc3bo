@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+    <h2>Category - {{ category.name }}</h2>
+    <form action="{{ url_for('search') }}" method="get" id="category-search" class="fright">
+        <input type="search" name="query" placeholder="Search Term" />
+        <input type="submit" />
+    </form>
+    {% if drugs %}
+    <h3>Drugs/Medical Products in Category</h3>
+    <ul id="drug-list">
+        {% for drug in drugs %}
+        <li><a href="{{ url_for('drug', id=drug.id) }}">{{ drug.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if children %}
+    <h3>Sub-Categories</h3>
+    <ul id="category-list">
+        {% for cat in children %}
+        <li><a href="{{ url_for('category', id=cat.id) }}">{{ cat.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

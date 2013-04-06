@@ -2,7 +2,7 @@
 {% block title %}Search Results{% endblock %}
 {% block content %}
     <h2>Search Results</h2>
-    <form action="{{ url_for('search') }}" method="get" id="home-search">
+    <form action="{{ url_for('search') }}" method="get" id="search-search" class="fright">
         <input type="search" name="query" value="{{ term }}" />
         <input type="submit" />
     </form>

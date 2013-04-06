@@ -35,7 +35,17 @@ def search():
 
 @app.route('/category/<int:id>')
 def category(id):
-    pass
+    category = BNFCategory.query.filter(BNFCategory.id==id).first()
+
+    if not category:
+        flash('Category not found', 'error')
+        return redirect(url_for('index'))
+
+    children = category.children.all()
+    drugs = category.drugs.all()
+
+    return render_template('category.html', category=category, children=children, drugs=drugs)
+
 
 @app.route('/drug/<int:id>')
 def drug(id):
@@ -44,6 +54,13 @@ def drug(id):
 @app.route('/chemical/<int:id>')
 def chemical(id):
     pass
+
+@app.context_processor
+def utility_processor():
+    def get_all(query):
+        return query.all()
+    return dict(get_all=get_all)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
