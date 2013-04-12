@@ -6,7 +6,7 @@ Contains classes for database table objects
 
 from flask.ext.sqlalchemy import SQLAlchemy
 import flask.ext.whooshalchemy as whooshalchemy
-from nhtg13 import app
+from plc3bo import app
 
 db = SQLAlchemy(app)
 
