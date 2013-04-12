@@ -77,7 +77,3 @@ def utility_processor():
     def get_all(query):
         return query.all()
     return dict(get_all=get_all)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
